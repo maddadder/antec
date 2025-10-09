@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "tnt86-shopstr.fullname" . }}-test-connection"
+  labels:
+    {{- include "tnt86-shopstr.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "tnt86-shopstr.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

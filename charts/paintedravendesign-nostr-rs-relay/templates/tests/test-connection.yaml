@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "paintedravendesign-nostr-rs-relay.fullname" . }}-test-connection"
+  labels:
+    {{- include "paintedravendesign-nostr-rs-relay.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "paintedravendesign-nostr-rs-relay.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

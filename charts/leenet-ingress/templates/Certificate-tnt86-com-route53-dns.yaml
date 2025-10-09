@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tnt86-com-route53-dns
+  namespace: istio-system
+spec:
+  secretName: tnt86-com-route53-dns-tls
+  issuerRef:
+    name: letsencrypt-production-dns
+    kind: ClusterIssuer
+  dnsNames:
+    - "tnt86.com"
+    - "*.tnt86.com"
+    

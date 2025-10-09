@@ -1,0 +1,48 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: my-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - hosts:
+    - "*"
+    port:
+      number: 80
+      name: leenet-link-http
+      protocol: HTTP
+    tls:
+      httpsRedirect: true
+  - hosts:
+    - "leenet.link"
+    - "*.leenet.link"
+    port:
+      number: 443
+      name: leenet-link-https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: leenet-link-route53-dns-tls
+  - hosts:
+    - "tnt86.com"
+    - "*.tnt86.com"
+    port:
+      number: 443
+      name: tnt86-com-https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: tnt86-com-route53-dns-tls
+  - hosts:
+    - "paintedravendesign.com"
+    - "*.paintedravendesign.com"
+    port:
+      number: 443
+      name: paintedravendesign-com-https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: paintedravendesign-com-route53-dns-tls
+

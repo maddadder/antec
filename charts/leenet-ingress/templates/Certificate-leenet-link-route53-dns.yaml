@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: leenet-link-route53-dns
+  namespace: istio-system
+spec:
+  secretName: leenet-link-route53-dns-tls
+  issuerRef:
+    name: letsencrypt-production-dns
+    kind: ClusterIssuer
+  dnsNames:
+    - "leenet.link"
+    - "*.leenet.link"
+    

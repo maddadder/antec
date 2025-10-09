@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "paintedravendesign-nostr-rs-relay.fullname" . }}
+  labels:
+    {{- include "paintedravendesign-nostr-rs-relay.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "paintedravendesign-nostr-rs-relay.selectorLabels" . | nindent 4 }}

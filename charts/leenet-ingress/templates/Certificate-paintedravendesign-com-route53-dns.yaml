@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: paintedravendesign-com-route53-dns
+  namespace: istio-system
+spec:
+  secretName: paintedravendesign-com-route53-dns-tls
+  issuerRef:
+    name: letsencrypt-production-dns
+    kind: ClusterIssuer
+  dnsNames:
+    - "paintedravendesign.com"
+    - "*.paintedravendesign.com"
+    

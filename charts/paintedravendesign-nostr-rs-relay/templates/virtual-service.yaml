@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: relay-paintedravendesign-ingress
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - relay.paintedravendesign.com
+    secretName: paintedravendesign-com-route53-dns-tls
+  rules:
+  - host: relay.paintedravendesign.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: paintedravendesign-nostr-rs-relay
+            port:
+              number: 8080

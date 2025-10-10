@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: leenet-link-route53-dns
-  namespace: istio-system
+  namespace: default
 spec:
   secretName: leenet-link-route53-dns-tls
   issuerRef:

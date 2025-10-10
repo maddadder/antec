@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tnt86-ingress
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - tnt86.com
+    secretName: tnt86-com-route53-dns-tls
+  rules:
+  - host: tnt86.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: tnt86-shopstr
+            port:
+              number: 3000

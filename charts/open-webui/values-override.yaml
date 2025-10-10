@@ -1,0 +1,44 @@
+ollama:
+  resources:
+    limits:
+      nvidia.com/gpu: "0"
+  service:
+    type: ClusterIP
+  gpu:
+    enabled: true
+    type: 'nvidia'
+    number: 1
+  models:
+    pull:
+      - deepseek-r1
+    run:
+      - deepseek-r1
+ollamaUrls:
+  - https://ollama.leenet.link/
+tika:
+  # -- Automatically install Apache Tika to extend Open WebUI
+  enabled: true
+
+service:
+  type: LoadBalancer
+  loadBalancerClass: "nginx"
+
+
+ingress:
+  enabled: true
+  class: "nginx"
+  # -- Use appropriate annotations for your Ingress controller, e.g., for NGINX:
+  annotations: {}
+  #   # Example for GKE Ingress
+  #   kubernetes.io/ingress.class: "gce"
+  #   kubernetes.io/ingress.global-static-ip-name: "open-webui-external-ip"   #  you need to create this address in GCP console
+  #   # Force HTTP to redirect to HTTPS
+  #   nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  #   nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  #   nginx.ingress.kubernetes.io/permanent-redirect: "https://chat.example.com"
+  #   networking.gke.io/managed-certificates: "mydomain-chat-cert"
+  #   # nginx.ingress.kubernetes.io/rewrite-target: /
+  host: "ollama.leenet.link" # update to your real domain
+  additionalHosts: []
+  tls: true
+  existingSecret: "leenet-link-route53-dns-tls"

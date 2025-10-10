@@ -1,4 +1,4 @@
-helm install leenet-ingress ./charts/leenet-ingress --namespace istio-system
+helm install leenet-ingress ./charts/leenet-ingress --namespace default
 
 helm install tnt86-nostr-rs-relay ./charts/tnt86-nostr-rs-relay
 helm install tnt86-shopstr ./charts/tnt86-shopstr

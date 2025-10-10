@@ -1,48 +1,21 @@
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: my-gateway
-  namespace: istio-system
+  name: global-http-redirect
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/permanent-redirect: https://$host$request_uri
 spec:
-  selector:
-    istio: ingressgateway # use istio default controller
-  servers:
-  - hosts:
-    - "*"
-    port:
-      number: 80
-      name: leenet-link-http
-      protocol: HTTP
-    tls:
-      httpsRedirect: true
-  - hosts:
-    - "leenet.link"
-    - "*.leenet.link"
-    port:
-      number: 443
-      name: leenet-link-https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: leenet-link-route53-dns-tls
-  - hosts:
-    - "tnt86.com"
-    - "*.tnt86.com"
-    port:
-      number: 443
-      name: tnt86-com-https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: tnt86-com-route53-dns-tls
-  - hosts:
-    - "paintedravendesign.com"
-    - "*.paintedravendesign.com"
-    port:
-      number: 443
-      name: paintedravendesign-com-https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: paintedravendesign-com-route53-dns-tls
-
+  ingressClassName: public
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: dummy
+            port: 
+              number: 80
+              

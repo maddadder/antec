@@ -55,7 +55,7 @@ spec:
           persistentVolumeClaim:
             claimName: tnt86-nostr-rs-relay-pvc
       {{- with .Values.nodeSelector }}
-      nodeSelector:080
+      nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}

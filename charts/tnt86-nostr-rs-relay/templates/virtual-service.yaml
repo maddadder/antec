@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: relay-tnt86-ingress
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - relay.tnt86.com
+    secretName: tnt86-com-route53-dns-tls
+  rules:
+  - host: relay.tnt86.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: tnt86-nostr-rs-relay
+            port:
+              number: 8080

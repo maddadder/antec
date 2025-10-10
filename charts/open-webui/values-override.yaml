@@ -4,17 +4,30 @@ ollama:
       nvidia.com/gpu: "0"
   service:
     type: ClusterIP
+  ingress:
+    enabled: true
+    hosts:
+      - host: ollama-api.leenet.link
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: 
+      - secretName: leenet-link-route53-dns-tls
+        #hosts:
+        #  - chart-example.local
+
   gpu:
     enabled: true
     type: 'nvidia'
     number: 1
   models:
     pull:
-      - deepseek-r1
+      - deepseek-r1:14b
     run:
-      - deepseek-r1
+      - deepseek-r1:14b
 ollamaUrls:
-  - https://ollama.leenet.link/
+  - https://ollama-api.leenet.link/
+
 tika:
   # -- Automatically install Apache Tika to extend Open WebUI
   enabled: true
@@ -39,6 +52,7 @@ ingress:
   #   networking.gke.io/managed-certificates: "mydomain-chat-cert"
   #   # nginx.ingress.kubernetes.io/rewrite-target: /
   host: "ollama.leenet.link" # update to your real domain
+  
   additionalHosts: []
   tls: true
   existingSecret: "leenet-link-route53-dns-tls"

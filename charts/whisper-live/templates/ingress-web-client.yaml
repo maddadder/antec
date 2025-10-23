@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whisper-web-client
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - whisper.leenet.link
+    secretName: leenet-link-route53-dns-tls
+  rules:
+  - host: whisper.leenet.link
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: whisper-web-client
+            port:
+              number: 80

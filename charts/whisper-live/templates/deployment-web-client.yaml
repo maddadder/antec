@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whisper-web-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whisper-web-client
+  template:
+    metadata:
+      labels:
+        app: whisper-web-client
+    spec:
+      containers:
+      - name: whisper-web-client
+        image: 192.168.8.129:32000/whisper-web-client:1.0.38
+        ports:
+        - containerPort: 80
+        env:
+        - name: WS_URL
+          value: "ws://whisper-live-service:9090"
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

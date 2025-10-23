@@ -6,7 +6,8 @@ helm install tnt86-shopstr ./charts/tnt86-shopstr
 helm install paintedravendesign-nostr-rs-relay ./charts/paintedravendesign-nostr-rs-relay
 helm install paintedravendesign-shopstr ./charts/paintedravendesign-shopstr
 
-export DDNSR53_CREDENTIALS_ACCESSKEYID=YOUR_ROUTE53_KEY_ID
-export DDNSR53_CREDENTIALS_SECRETACCESSKEY=YOUR_ROUTE53_KEY_SECRET
+helm install whisper-live ./charts/whisper-live
+#export DDNSR53_CREDENTIALS_ACCESSKEYID=YOUR_ROUTE53_KEY_ID
+#export DDNSR53_CREDENTIALS_SECRETACCESSKEY=YOUR_ROUTE53_KEY_SECRET
 
-helm install ddns-route53 --namespace default --set Route53AccessKeyId=$DDNSR53_CREDENTIALS_ACCESSKEYID --set Route53SecretAccessKey=$DDNSR53_CREDENTIALS_SECRETACCESSKEY ./charts/ddns-route53
+#helm install ddns-route53 --namespace default --set Route53AccessKeyId=$DDNSR53_CREDENTIALS_ACCESSKEYID --set Route53SecretAccessKey=$DDNSR53_CREDENTIALS_SECRETACCESSKEY ./charts/ddns-route53

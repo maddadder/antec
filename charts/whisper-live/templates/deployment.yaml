@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "whisper-live.fullname" . }}
+  labels:
+    {{- include "whisper-live.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "whisper-live.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "whisper-live.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "whisper-live.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          #command: 
+          #  - "python"
+          #  - "run_server.py"
+          #  - "--max_connection_time"
+          #  - "57600"
+          env:
+            - name: DEVICE
+              value: "cuda"
+            - name: COMPUTE_TYPE
+              value: "float16"
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: "all"
+            - name: FASTER_WHISPER_CUSTOM_MODEL_PATH
+              value: "/app/models/whisper-medium"
+          ports:
+          - containerPort: 9090
+          #volumeMounts:
+          #- name: models-volume
+          #  mountPath: /root/.cache/whisper
+          resources:
+            limits:
+              nvidia.com/gpu: 1  # GPU requirement
+          ports:
+            - name: http
+              containerPort: 9090
+              protocol: TCP
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: 9090
+          #readinessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: 9090
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      #volumes:
+      #  - name: models-volume
+      #    persistentVolumeClaim:
+      #      claimName: whisper-models
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

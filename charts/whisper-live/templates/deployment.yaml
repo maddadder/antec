@@ -33,11 +33,11 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          #command: 
-          #  - "python"
-          #  - "run_server.py"
-          #  - "--max_connection_time"
-          #  - "57600"
+          command: 
+            - "python"
+            - "run_server.py"
+            - "--max_connection_time"
+            - "57600"
           env:
             - name: DEVICE
               value: "cuda"

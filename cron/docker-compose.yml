@@ -1,7 +1,0 @@
-version: '3.8'
-
-services:
-  update_lb_cron:
-    image: 192.168.8.129:32000/update-lb-cron:1.0.68
-    build: .
-    container_name: update-lb-cron

@@ -190,22 +190,35 @@ resource "azurerm_container_group" "homelab_container_group" {
       "/bin/sh",
       "-c",
       <<EOT
-      echo 'server {' > /etc/nginx/conf.d/default.conf.template
-      echo '    listen 80;' >> /etc/nginx/conf.d/default.conf.template
-      echo '    location / {' >> /etc/nginx/conf.d/default.conf.template
-      echo '        return 301 https://\$host\$request_uri;' >> /etc/nginx/conf.d/default.conf.template
-      echo '    }' >> /etc/nginx/conf.d/default.conf.template
-      echo '}' >> /etc/nginx/conf.d/default.conf.template
+      echo 'worker_processes auto;
 
-      echo 'server {' >> /etc/nginx/conf.d/default.conf.template
-      echo '    listen 443;' >> /etc/nginx/conf.d/default.conf.template
-      echo '    location / {' >> /etc/nginx/conf.d/default.conf.template
-      echo '        proxy_pass http://\$YOUR_HOME_SERVER_PUBLIC_IP;' >> /etc/nginx/conf.d/default.conf.template
-      echo '        proxy_set_header Host \$host;' >> /etc/nginx/conf.d/default.conf.template
-      echo '        proxy_set_header X-Real-IP \$remote_addr;' >> /etc/nginx/conf.d/default.conf.template
-      echo '        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;' >> /etc/nginx/conf.d/default.conf.template
-      echo '    }' >> /etc/nginx/conf.d/default.conf.template
-      echo '}' >> /etc/nginx/conf.d/default.conf.template
+      events {
+          worker_connections 1024;
+      }
+
+      http {
+          include /etc/nginx/mime.types;
+          default_type application/octet-stream;
+
+          server {
+              listen 80;
+
+              location / {
+                  proxy_pass http://zambonigirl.com; 
+                  proxy_set_header Host \$host;
+                  proxy_set_header X-Real-IP \$remote_addr;
+                  proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto \$scheme;
+              }
+          }
+      }
+
+      stream {
+          server {
+              listen 443;
+              proxy_pass zambonigirl.com:443; 
+          }
+      }' > /etc/nginx/nginx.conf
 
       # Start NGINX
       nginx -g 'daemon off;'

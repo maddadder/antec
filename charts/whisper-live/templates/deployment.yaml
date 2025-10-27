@@ -47,6 +47,8 @@ spec:
               value: "all"
             - name: FASTER_WHISPER_CUSTOM_MODEL_PATH
               value: "/app/models/large-v3-turbo"
+            - name: MAX_CLIENTS
+              value: "8"
           ports:
           - containerPort: 9090
           #volumeMounts:

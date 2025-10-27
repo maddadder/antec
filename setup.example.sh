@@ -1,4 +1,23 @@
+
+kubectl create secret generic -n cert-manager route53-secret --from-literal=secret-access-key="YOUR_KEY_FROM_AWS"
+
+#https://cert-manager.io/v1.15-docs/configuration/acme/dns01/google/
+#gcloud auth login
+#gcloud config set project "probable-summer-476315-q1"
+#gcloud iam service-accounts create dns01-solver --display-name "dns01-solver"
+#export PROJECT_ID=probable-summer-476315-q1
+#gcloud projects add-iam-policy-binding $PROJECT_ID \
+#   --member serviceAccount:dns01-solver@$PROJECT_ID.iam.gserviceaccount.com \
+#   --role roles/dns.admin
+#gcloud iam service-accounts keys create key.json \
+#   --iam-account dns01-solver@$PROJECT_ID.iam.gserviceaccount.com
+kubectl create secret generic clouddns-dns01-solver-svc-acct \
+   --from-file=key.json -n cert-manager
+
+kubectl create secret generic -n cert-manager route53-secret --from-literal=secret-access-key="YOUR_KEY_FROM_AWS"
+
 helm install leenet-ingress ./charts/leenet-ingress --namespace default
+kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges --all-namespaces
 
 helm install tnt86-nostr-rs-relay ./charts/tnt86-nostr-rs-relay
 helm install tnt86-shopstr ./charts/tnt86-shopstr

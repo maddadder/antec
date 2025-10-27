@@ -7,12 +7,12 @@ ollama:
   ingress:
     enabled: true
     hosts:
-      - host: ollama-api.leenet.link
+      - host: ollama-api.dankapps.app
         paths:
           - path: /
             pathType: Prefix
     tls: 
-      - secretName: leenet-link-route53-dns-tls
+      - secretName: dankapps-app-gcloud-dns-tls
         #hosts:
         #  - chart-example.local
 
@@ -26,8 +26,11 @@ ollama:
     run:
       - deepseek-r1:14b
 ollamaUrls:
-  - https://ollama-api.leenet.link/
+  - https://ollama-api.dankapps.app/
 
+resources:
+  limits:
+  nvidia.com/gpu: 1  # GPU requirement
 tika:
   # -- Automatically install Apache Tika to extend Open WebUI
   enabled: true
@@ -51,8 +54,8 @@ ingress:
   #   nginx.ingress.kubernetes.io/permanent-redirect: "https://chat.example.com"
   #   networking.gke.io/managed-certificates: "mydomain-chat-cert"
   #   # nginx.ingress.kubernetes.io/rewrite-target: /
-  host: "ollama.leenet.link" # update to your real domain
+  host: "ollama.dankapps.app" # update to your real domain
   
   additionalHosts: []
   tls: true
-  existingSecret: "leenet-link-route53-dns-tls"
+  existingSecret: "dankapps-app-gcloud-dns-tls"

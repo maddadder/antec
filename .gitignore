@@ -1,4 +1,5 @@
 setup.sh
+key.json
 
 # Local .terraform directories
 **/.terraform/*

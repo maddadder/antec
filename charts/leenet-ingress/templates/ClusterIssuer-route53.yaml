@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-route53-production-dns
+  namespace: default
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: rleecharlie@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: issuer-account-key
+    solvers:
+      - dns01:
+          route53:
+            accessKeyID: AKIA5N475DMNK6CNSGAL
+            region: us-west-2
+            secretAccessKeySecretRef:
+              name: route53-secret
+              key: secret-access-key

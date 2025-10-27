@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dankapps-app-gcloud-dns
+  namespace: default
+spec:
+  secretName: dankapps-app-gcloud-dns-tls
+  issuerRef:
+    name: letsencrypt-gcloud-production-dns
+    kind: ClusterIssuer
+  dnsNames:
+    - "dankapps.app"
+    - "*.dankapps.app"
+    

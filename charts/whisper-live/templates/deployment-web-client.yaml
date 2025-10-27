@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: whisper-web-client
-        image: 192.168.8.129:32000/whisper-web-client:1.0.38
+        image: 192.168.8.103:32000/whisper-web-client:1.0.51
         ports:
         - containerPort: 80
         env:

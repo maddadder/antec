@@ -46,7 +46,7 @@ spec:
             - name: NVIDIA_VISIBLE_DEVICES
               value: "all"
             - name: FASTER_WHISPER_CUSTOM_MODEL_PATH
-              value: "/app/models/whisper-medium"
+              value: "/app/models/large-v3-turbo"
           ports:
           - containerPort: 9090
           #volumeMounts:

@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: tnt86-com-route53-dns-tls
   issuerRef:
-    name: letsencrypt-production-dns
+    name: letsencrypt-route53-production-dns
     kind: ClusterIssuer
   dnsNames:
     - "tnt86.com"

@@ -6,10 +6,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - whisper.leenet.link
-    secretName: leenet-link-route53-dns-tls
+    - whisper.dankapps.app
+    secretName: dankapps-app-gcloud-dns-tls
   rules:
-  - host: whisper.leenet.link
+  - host: whisper.dankapps.app
     http:
       paths:
       - path: /

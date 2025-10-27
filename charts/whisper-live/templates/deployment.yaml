@@ -36,8 +36,6 @@ spec:
           command: 
             - "python"
             - "run_server.py"
-            - "--max_connection_time"
-            - "57600"
           env:
             - name: DEVICE
               value: "cuda"
@@ -48,12 +46,16 @@ spec:
             - name: FASTER_WHISPER_CUSTOM_MODEL_PATH
               value: "/app/models/large-v3-turbo"
             - name: MAX_CLIENTS
-              value: "8"
+              value: "6"
+            - name: OMP_NUM_THREADS
+              value: "12"
+            - name: MAX_CONNECTION_TIME
+              value: "57600"
           ports:
           - containerPort: 9090
-          #volumeMounts:
-          #- name: models-volume
-          #  mountPath: /root/.cache/whisper
+          volumeMounts:
+          - name: models-volume
+            mountPath: /root/.cache/whisper-live
           resources:
             limits:
               nvidia.com/gpu: 1  # GPU requirement
@@ -71,10 +73,10 @@ spec:
           #    port: 9090
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      #volumes:
-      #  - name: models-volume
-      #    persistentVolumeClaim:
-      #      claimName: whisper-models
+      volumes:
+        - name: models-volume
+          persistentVolumeClaim:
+            claimName: whisper-models
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

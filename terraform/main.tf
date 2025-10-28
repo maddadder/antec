@@ -202,21 +202,14 @@ resource "azurerm_container_group" "homelab_container_group" {
 
           server {
               listen 80;
-
-              location / {
-                  proxy_pass http://zambonigirl.com; 
-                  proxy_set_header Host \$host;
-                  proxy_set_header X-Real-IP \$remote_addr;
-                  proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-                  proxy_set_header X-Forwarded-Proto \$scheme;
-              }
+              return 301 https://$host$request_uri;
           }
       }
 
       stream {
           server {
               listen 443;
-              proxy_pass zambonigirl.com:443; 
+              proxy_pass zambonigirl.com:27470; 
           }
       }' > /etc/nginx/nginx.conf
 

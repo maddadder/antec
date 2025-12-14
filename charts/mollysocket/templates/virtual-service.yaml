@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-mollysocket
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - mollysocket.dankapps.app
+    secretName: dankapps-app-gcloud-dns-tls
+  rules:
+  - host: mollysocket.dankapps.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mollysocket
+            port:
+              number: 8020
